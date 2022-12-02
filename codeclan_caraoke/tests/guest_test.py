@@ -6,8 +6,9 @@ from classes.song import Song
 class TestGuest(unittest.TestCase):
 
     def setUp(self):
-        self.guest = Guest("Gareth")
-        self.guest2 = Guest("Chris")
+        self.guest = Guest("Gareth", 10)
+        self.guest2 = Guest("Chris", 15)
+        self.guest3 = Guest("Sam", 0)
 
     def test_guest_name(self):
         self.assertEqual("Gareth", self.guest.name)
@@ -22,3 +23,6 @@ class TestGuest(unittest.TestCase):
     def test_guest_leave_room(self):
         self.guest.leave_room()
         self.assertEqual(False, self.guest.in_room)
+
+    def test_guest_wallet(self):
+        self.assertEqual(10, self.guest.wallet)

@@ -5,11 +5,15 @@ class Room:
         self.song_playing = {}
 
     def check_in(self, guest):
-        self.guest_list.append(guest.name)
-        # self.guest_list.update({room_number : guest.name})
+        if guest.in_room == False:
+            self.guest_list.append(guest.name)
+            guest.enter_room()
 
     def check_out(self, guest):
-        self.guest_list.remove(guest.name)
+        if guest.name in self.guest_list:
+            self.guest_list.remove(guest.name)
+            guest.leave_room()
 
     def play_song(self, song):
+        self.song_playing.clear()
         self.song_playing.update({song.title : song.artist})

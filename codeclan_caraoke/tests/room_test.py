@@ -6,10 +6,11 @@ from classes.song import Song
 class TestRoom(unittest.TestCase):
 
     def setUp(self):
-        self.room = Room(1)
-        self.room2 = Room(2)
+        self.room = Room(1, 3)
+        self.room2 = Room(2, 2)
         self.guest = Guest("Gareth")
         self.guest2 = Guest("Chris")
+        self.guest3 = Guest("Sam")
         self.song = Song("Sweet Caroline", "Neil Diamond")
         self.song2 = Song("Suspicious Minds", "Elvis Presley")
 
@@ -53,3 +54,31 @@ class TestRoom(unittest.TestCase):
         self.room.play_song(self.song)
         self.room.play_song(self.song2)
         self.assertEqual({"Suspicious Minds" : "Elvis Presley"}, self.room.song_playing)
+
+    def test_room_capacity(self):
+        self.assertEqual(3, self.room.capacity)
+
+    def test_room_capacity_full(self):
+        self.room.check_in(self.guest)
+        self.room.check_in(self.guest2)
+        self.room.check_in(self.guest3)
+        result = self.room.check_full_capacity()
+        self.assertEqual(True, result)
+
+    def test_room_capacity_not_full(self):
+        self.room.check_in(self.guest)
+        self.room.check_in(self.guest2)
+        result = self.room.check_full_capacity()
+        self.assertEqual(False, result)
+
+    def test_check_in_if_full(self):
+        self.room2.check_in(self.guest)
+        self.room2.check_in(self.guest2)
+        self.room2.check_in(self.guest3)
+        self.assertEqual(["Gareth", "Chris"], self.room2.guest_list)
+
+    def test_check_in_if_space(self):
+        self.room.check_in(self.guest)
+        self.room.check_in(self.guest2)
+        self.room.check_in(self.guest3)
+        self.assertEqual(["Gareth", "Chris", "Sam"], self.room.guest_list)

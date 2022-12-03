@@ -9,3 +9,6 @@ class Guest:
 
     def leave_room(self):
         self.in_room = False
+
+    def pay_money(self, room):
+        self.wallet -= room.price
